@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ScrollView:
+    Permite rolar a tela
+-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:fillViewport="true">
+
+    <!-- ========================================== -->
+    <!-- CONTAINER PRINCIPAL -->
+    <!-- ========================================== -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <!-- ========================================== -->
+        <!-- IMAGEM DE FUNDO -->
+        <!-- ========================================== -->
+
+        <ImageView
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:src="@drawable/fundo_madeira"
+
+            android:scaleType="centerCrop"/>
+
+        <!-- ========================================== -->
+        <!-- CAMADA ESCURA -->
+        <!-- ========================================== -->
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:background="#B3000000"/>
+
+        <!-- ========================================== -->
+        <!-- CONTEÚDO -->
+        <!-- ========================================== -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:padding="24dp"
+
+            android:gravity="center_horizontal">
+
+            <!-- ========================================== -->
+            <!-- TÍTULO -->
+            <!-- ========================================== -->
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="CRIAR CONTA"
+
+                android:textColor="#FFFFFF"
+
+                android:textSize="34sp"
+
+                android:textStyle="bold"
+
+                android:layout_marginTop="40dp"
+
+                android:layout_marginBottom="30dp"/>
+
+            <!-- ========================================== -->
+            <!-- CARD PRINCIPAL -->
+            <!-- ========================================== -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:background="#CC1E1E1E"
+
+                android:padding="22dp">
+
+                <!-- NOME -->
+                <EditText
+                    android:id="@+id/edtNome"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:hint="Nome de usuário"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textColorHint="#AAAAAA"
+
+                    android:inputType="text"
+
+                    android:padding="16dp"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- EMAIL -->
+                <EditText
+                    android:id="@+id/edtEmailCadastro"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:hint="Digite seu email"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textColorHint="#AAAAAA"
+
+                    android:inputType="textEmailAddress"
+
+                    android:padding="16dp"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- SENHA -->
+                <EditText
+                    android:id="@+id/edtSenhaCadastro"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:hint="Digite sua senha"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textColorHint="#AAAAAA"
+
+                    android:inputType="textPassword"
+
+                    android:drawableEnd="@android:drawable/ic_menu_view"
+
+                    android:padding="16dp"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:layout_marginBottom="30dp"/>
+
+                <!-- TEXTO -->
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Escolha seu Avatar"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textSize="20sp"
+
+                    android:textStyle="bold"
+
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- GRID -->
+                <GridLayout
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:columnCount="2"
+
+                    android:layout_gravity="center"
+
+                    android:layout_marginBottom="30dp">
+
+                    <!-- ========================================== -->
+                    <!-- AVATAR 1 -->
+                    <!-- ========================================== -->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardAvatar1"
+
+                        android:layout_width="120dp"
+
+                        android:layout_height="120dp"
+
+                        android:layout_margin="8dp"
+
+                        android:clickable="true"
+
+                        android:focusable="true"
+
+                        app:cardCornerRadius="22dp"
+
+                        app:cardElevation="8dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:src="@drawable/avatar1"
+
+                                android:scaleType="centerCrop"/>
+
+                            <View
+                                android:id="@+id/bordaAvatar1"
+
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:background="@drawable/avatar_selected"
+
+                                android:visibility="visible"
+                                android:clickable="false"
+
+                                android:focusable="false"/>
+
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- ========================================== -->
+                    <!-- AVATAR 2 -->
+                    <!-- ========================================== -->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardAvatar2"
+
+                        android:layout_width="120dp"
+
+                        android:layout_height="120dp"
+
+                        android:layout_margin="8dp"
+
+                        android:clickable="true"
+
+                        android:focusable="true"
+
+                        app:cardCornerRadius="22dp"
+
+                        app:cardElevation="8dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:src="@drawable/avatar2"
+
+                                android:scaleType="centerCrop"/>
+
+                            <View
+                                android:id="@+id/bordaAvatar2"
+
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:background="@drawable/avatar_selected"
+
+                                android:visibility="gone"
+                                android:clickable="false"
+
+                                android:focusable="false"/>
+
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- ========================================== -->
+                    <!-- AVATAR 3 -->
+                    <!-- ========================================== -->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardAvatar3"
+
+                        android:layout_width="120dp"
+
+                        android:layout_height="120dp"
+
+                        android:layout_margin="8dp"
+
+                        android:clickable="true"
+
+                        android:focusable="true"
+
+                        app:cardCornerRadius="22dp"
+
+                        app:cardElevation="8dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:src="@drawable/avatar3"
+
+                                android:scaleType="centerCrop"/>
+
+                            <View
+                                android:id="@+id/bordaAvatar3"
+
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:background="@drawable/avatar_selected"
+
+                                android:visibility="gone"
+                                android:clickable="false"
+
+                                android:focusable="false"/>
+
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- ========================================== -->
+                    <!-- AVATAR 4 -->
+                    <!-- ========================================== -->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardAvatar4"
+
+                        android:layout_width="120dp"
+
+                        android:layout_height="120dp"
+
+                        android:layout_margin="8dp"
+
+                        android:clickable="true"
+
+                        android:focusable="true"
+
+                        app:cardCornerRadius="22dp"
+
+                        app:cardElevation="8dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:src="@drawable/avatar4"
+
+                                android:scaleType="centerCrop"/>
+
+                            <View
+                                android:id="@+id/bordaAvatar4"
+
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
+                                android:background="@drawable/avatar_selected"
+
+                                android:visibility="gone"
+                                android:clickable="false"
+
+                                android:focusable="false"/>
+
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </GridLayout>
+
+                <!-- BOTÃO -->
+                <Button
+                    android:id="@+id/btnCadastrar"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="CADASTRAR"
+
+                    android:textStyle="bold"
+
+                    android:textSize="17sp"
+
+                    android:padding="16dp"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

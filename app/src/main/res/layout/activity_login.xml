@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ScrollView:
+    Permite rolar caso o teclado abra
+-->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:fillViewport="true">
+
+    <!-- ========================================== -->
+    <!-- CONTAINER PRINCIPAL -->
+    <!-- ========================================== -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent">
+
+        <!-- ========================================== -->
+        <!-- IMAGEM DE FUNDO -->
+        <!-- ========================================== -->
+
+        <ImageView
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:src="@drawable/fundo_madeira"
+
+            android:scaleType="centerCrop"/>
+
+        <!-- ========================================== -->
+        <!-- CAMADA ESCURA -->
+        <!-- ========================================== -->
+
+        <View
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:background="#B3000000"/>
+
+        <!-- ========================================== -->
+        <!-- CONTEÚDO PRINCIPAL -->
+        <!-- ========================================== -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+
+            android:gravity="center"
+
+            android:padding="24dp">
+
+            <!-- ========================================== -->
+            <!-- CARD CENTRAL -->
+            <!-- ========================================== -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                android:background="#CC1E1E1E"
+
+                android:padding="24dp">
+
+                <!-- ========================================== -->
+                <!-- TÍTULO -->
+                <!-- ========================================== -->
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="SHUFFLE GAME"
+
+                    android:textSize="34sp"
+
+                    android:textStyle="bold"
+
+                    android:textColor="#FFFFFF"
+
+                    android:layout_gravity="center"
+
+                    android:layout_marginBottom="40dp"/>
+
+                <!-- ========================================== -->
+                <!-- CAMPO EMAIL -->
+                <!-- ========================================== -->
+
+                <EditText
+                    android:id="@+id/edtEmail"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:hint="Digite seu email"
+
+                    android:inputType="textEmailAddress"
+
+                    android:padding="16dp"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textColorHint="#AAAAAA"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- ========================================== -->
+                <!-- CAMPO SENHA -->
+                <!-- ========================================== -->
+
+                <EditText
+                    android:id="@+id/edtSenha"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:hint="Digite sua senha"
+
+                    android:inputType="textPassword"
+
+                    android:drawableEnd="@android:drawable/ic_menu_view"
+
+                    android:padding="16dp"
+
+                    android:textColor="#FFFFFF"
+
+                    android:textColorHint="#AAAAAA"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:layout_marginBottom="30dp"/>
+
+                <!-- ========================================== -->
+                <!-- BOTÃO LOGIN -->
+                <!-- ========================================== -->
+
+                <Button
+                    android:id="@+id/btnLogin"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="ENTRAR"
+
+                    android:textStyle="bold"
+
+                    android:textSize="16sp"
+
+                    android:padding="16dp"
+
+                    android:backgroundTint="#00E5FF"
+
+                    android:textColor="#FFFFFF"/>
+
+                <!-- ========================================== -->
+                <!-- TEXTO CADASTRO -->
+                <!-- ========================================== -->
+
+                <TextView
+                    android:id="@+id/txtCadastro"
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:text="Criar conta"
+
+                    android:textColor="#00E5FF"
+
+                    android:textStyle="bold"
+
+                    android:textSize="16sp"
+
+                    android:layout_gravity="center"
+
+                    android:layout_marginTop="24dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

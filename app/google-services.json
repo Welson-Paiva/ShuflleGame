@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601049781235",
+    "project_id": "shufflegame-8cce8",
+    "storage_bucket": "shufflegame-8cce8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601049781235:android:563a624c70b27acdea3886",
+        "android_client_info": {
+          "package_name": "com.example.shufflegame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQCogAnaPQIct2MsCBwxBfubrOKl3SXOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

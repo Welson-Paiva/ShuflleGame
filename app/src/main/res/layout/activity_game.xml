@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ========================================== -->
+<!-- FRAME PRINCIPAL -->
+<!-- ========================================== -->
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <!-- ========================================== -->
+    <!-- FUNDO MADEIRA -->
+    <!-- ========================================== -->
+
+    <ImageView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:src="@drawable/fundo_madeira"
+
+        android:scaleType="centerCrop"/>
+
+    <!-- ========================================== -->
+    <!-- CAMADA ESCURA -->
+    <!-- ========================================== -->
+
+    <View
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:background="#99000000"/>
+
+    <!-- ========================================== -->
+    <!-- CONTEÚDO -->
+    <!-- ========================================== -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal"
+
+        android:padding="20dp">
+
+        <!-- ========================================== -->
+        <!-- TÍTULO -->
+        <!-- ========================================== -->
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="SHUFFLE GAME"
+
+            android:textColor="#FFFFFF"
+
+            android:textSize="30sp"
+
+            android:textStyle="bold"
+
+            android:layout_marginTop="20dp"
+
+            android:layout_marginBottom="20dp"/>
+
+        <!-- ========================================== -->
+        <!-- TEMPORIZADOR -->
+        <!-- ========================================== -->
+
+        <TextView
+            android:id="@+id/txtTempo"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="60"
+
+            android:textColor="#00E5FF"
+
+            android:textStyle="bold"
+
+            android:textSize="32sp"
+
+            android:layout_marginBottom="30dp"/>
+
+        <!-- ========================================== -->
+        <!-- TABULEIRO -->
+        <!-- ========================================== -->
+
+        <GridLayout
+            android:id="@+id/gridJogo"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:background="#552200"
+
+            android:padding="8dp"
+
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+    <!-- ========================================== -->
+    <!-- OVERLAY VITÓRIA -->
+    <!-- ========================================== -->
+
+    <LinearLayout
+        android:id="@+id/layoutVitoria"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+
+        android:gravity="center"
+
+        android:background="#CC000000"
+
+        android:visibility="gone">
+
+        <!-- CARD -->
+        <LinearLayout
+            android:layout_width="320dp"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:background="#FF1E1E1E"
+
+            android:padding="24dp"
+
+            android:gravity="center_horizontal">
+
+            <!-- TEXTO -->
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="VITÓRIA"
+
+                android:textColor="#FFD700"
+
+                android:textSize="30sp"
+
+                android:textStyle="bold"
+
+                android:layout_marginBottom="20dp"/>
+
+            <!-- TROFÉU -->
+            <ImageView
+                android:layout_width="120dp"
+
+                android:layout_height="120dp"
+
+                android:src="@drawable/trofeu"
+
+                android:layout_marginBottom="20dp"/>
+
+            <!-- BOTÃO -->
+            <Button
+                android:id="@+id/btnJogarNovamente"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:text="JOGAR NOVAMENTE"
+
+                android:textStyle="bold"
+
+                android:layout_marginBottom="15dp"/>
+
+            <!-- MENU -->
+            <Button
+                android:id="@+id/btnMenu"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:text="MENU"
+
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ========================================== -->
+    <!-- OVERLAY GAME OVER -->
+    <!-- ========================================== -->
+
+    <LinearLayout
+        android:id="@+id/layoutGameOver"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+
+        android:gravity="center"
+
+        android:background="#CC000000"
+
+        android:visibility="gone">
+
+        <!-- CARD -->
+        <LinearLayout
+            android:layout_width="320dp"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:background="#FF1E1E1E"
+
+            android:padding="24dp"
+
+            android:gravity="center_horizontal">
+
+            <!-- TEXTO -->
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:text="GAME OVER"
+
+                android:textColor="#FF4444"
+
+                android:textSize="30sp"
+
+                android:textStyle="bold"
+
+                android:layout_marginBottom="20dp"/>
+
+            <!-- CAVEIRA -->
+            <ImageView
+                android:layout_width="120dp"
+
+                android:layout_height="120dp"
+
+                android:src="@drawable/caveira"
+
+                android:layout_marginBottom="20dp"/>
+
+            <!-- BOTÃO -->
+            <Button
+                android:id="@+id/btnTentarNovamente"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:text="TENTAR NOVAMENTE"
+
+                android:textStyle="bold"
+
+                android:layout_marginBottom="15dp"/>
+
+            <!-- MENU -->
+            <Button
+                android:id="@+id/btnMenuGameOver"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:text="MENU"
+
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

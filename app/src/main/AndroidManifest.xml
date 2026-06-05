@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ========================================== -->
+<!-- MANIFESTO PRINCIPAL DO APP -->
+<!-- ========================================== -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ========================================== -->
+    <!-- PERMISSÃO INTERNET -->
+    <!-- Necessária para Firebase -->
+    <!-- ========================================== -->
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <!-- ========================================== -->
+    <!-- APPLICATION -->
+    <!-- ========================================== -->
+
+    <application
+
+        android:allowBackup="true"
+
+        android:dataExtractionRules="@xml/data_extraction_rules"
+
+        android:fullBackupContent="@xml/backup_rules"
+
+        android:icon="@mipmap/ic_launcher"
+
+        android:label="@string/app_name"
+
+        android:roundIcon="@mipmap/ic_launcher_round"
+
+        android:supportsRtl="true"
+
+        android:theme="@style/Theme.ShuffleGame"
+
+        tools:targetApi="31">
+
+        <!-- ========================================== -->
+        <!-- LOGIN -->
+        <!-- PRIMEIRA TELA DO APP -->
+        <!-- ========================================== -->
+
+        <activity
+            android:name=".LoginActivity"
+
+            android:exported="true">
+
+            <!-- Activity inicial -->
+            <intent-filter>
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+
+        </activity>
+
+        <!-- ========================================== -->
+        <!-- CADASTRO -->
+        <!-- ========================================== -->
+
+        <activity
+            android:name=".CadastroActivity"
+
+            android:exported="false" />
+
+        <!-- ========================================== -->
+        <!-- MENU PRINCIPAL -->
+        <!-- ========================================== -->
+
+        <activity
+            android:name=".MainActivity"
+
+            android:exported="false" />
+
+        <!-- ========================================== -->
+        <!-- TELA DO JOGO -->
+        <!-- ========================================== -->
+
+        <activity
+            android:name=".GameActivity"
+
+            android:exported="false" />
+
+    </application>
+
+</manifest>
