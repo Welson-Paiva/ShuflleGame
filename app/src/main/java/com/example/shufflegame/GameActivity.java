@@ -267,7 +267,7 @@ public class GameActivity extends AppCompatActivity {
 
             colunas = 3;
 
-            tempoPartida = 60;
+            tempoPartida = 90;
         }
 
         // Médio
@@ -277,7 +277,7 @@ public class GameActivity extends AppCompatActivity {
 
             colunas = 4;
 
-            tempoPartida = 90;
+            tempoPartida = 120;
         }
 
         // Difícil
@@ -287,7 +287,7 @@ public class GameActivity extends AppCompatActivity {
 
             colunas = 5;
 
-            tempoPartida = 120;
+            tempoPartida = 240;
         }
     }
 
