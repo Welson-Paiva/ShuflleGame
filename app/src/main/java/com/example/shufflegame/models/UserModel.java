@@ -29,4 +29,16 @@ public class UserModel { //O Firebase precisa disso para converter JSON em objet
         this.avatar = avatar;
         this.melhorTempo = melhorTempo;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public long getMelhorTempo() {
+        return melhorTempo;
+    }
 }

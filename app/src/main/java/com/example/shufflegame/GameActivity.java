@@ -4,35 +4,27 @@ package com.example.shufflegame;
 // IMPORTAÇÕES
 // ==========================================
 
-// Intent
-import android.content.Intent;
-
-// Cor
 import android.graphics.Color;
-
-// Media Player (sons)
-import android.media.MediaPlayer;
-
-// Temporizador
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.CountDownTimer;
 import android.os.Bundle;
-
-// Componentes
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// AppCompat
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-// Firebase
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-// Utilidades
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -45,39 +37,23 @@ public class GameActivity extends AppCompatActivity {
     // COMPONENTES XML
     // ==========================================
 
-    // Grid do jogo
     GridLayout gridJogo;
-
-    // Texto tempo
     TextView txtTempo;
-
-    // Overlay vitória
     LinearLayout layoutVitoria;
-
-    // Overlay derrota
     LinearLayout layoutGameOver;
-
-    // Botões
     Button btnJogarNovamente;
     Button btnMenu;
     Button btnTentarNovamente;
     Button btnMenuGameOver;
+    Button btnDesistir;
 
     // ==========================================
     // VARIÁVEIS JOGO
     // ==========================================
 
-    // Lista números
-    ArrayList<Integer> numeros =
-            new ArrayList<>();
-
-    // Quantidade colunas
+    ArrayList<Integer> numeros = new ArrayList<>();
     int colunas = 3;
-
-    // Quantidade linhas
     int linhas = 3;
-
-    // Tempo da partida
     int tempoPartida = 60;
 
     // ==========================================
@@ -91,20 +67,17 @@ public class GameActivity extends AppCompatActivity {
     // ==========================================
 
     FirebaseAuth auth;
-
     DatabaseReference databaseReference;
 
     // ==========================================
     // SONS
     // ==========================================
 
-    MediaPlayer somClique;
-
-    MediaPlayer somMadeira;
-
-    MediaPlayer somVitoria;
-
-    MediaPlayer somGameOver;
+    private SoundPool soundPool;
+    private int somClique;
+    private int somMadeira;
+    private int somVitoria;
+    private int somGameOver;
 
     // ==========================================
     // onCreate
@@ -112,81 +85,56 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Inicializa Activity
         super.onCreate(savedInstanceState);
-
-        // Define XML
         setContentView(R.layout.activity_game);
 
         // ==========================================
         // CONECTA XML
         // ==========================================
 
-        gridJogo =
-                findViewById(R.id.gridJogo);
-
-        txtTempo =
-                findViewById(R.id.txtTempo);
-
-        layoutVitoria =
-                findViewById(R.id.layoutVitoria);
-
-        layoutGameOver =
-                findViewById(R.id.layoutGameOver);
-
-        btnJogarNovamente =
-                findViewById(R.id.btnJogarNovamente);
-
-        btnMenu =
-                findViewById(R.id.btnMenu);
-
-        btnTentarNovamente =
-                findViewById(R.id.btnTentarNovamente);
-
-        btnMenuGameOver =
-                findViewById(R.id.btnMenuGameOver);
+        gridJogo         = findViewById(R.id.gridJogo);
+        txtTempo         = findViewById(R.id.txtTempo);
+        layoutVitoria    = findViewById(R.id.layoutVitoria);
+        layoutGameOver   = findViewById(R.id.layoutGameOver);
+        btnJogarNovamente= findViewById(R.id.btnJogarNovamente);
+        btnMenu          = findViewById(R.id.btnMenu);
+        btnTentarNovamente = findViewById(R.id.btnTentarNovamente);
+        btnMenuGameOver  = findViewById(R.id.btnMenuGameOver);
+        btnDesistir      = findViewById(R.id.btnDesistir);
 
         // ==========================================
         // FIREBASE
         // ==========================================
 
         auth = FirebaseAuth.getInstance();
-
-        databaseReference =
-                FirebaseDatabase
-                        .getInstance()
-                        .getReference("usuarios");
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios");
 
         // ==========================================
         // SONS
         // ==========================================
 
-        somClique =
-                MediaPlayer.create(this,
-                        R.raw.click);
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
 
-        somMadeira =
-                MediaPlayer.create(this,
-                        R.raw.wood_move);
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(20)
+                .setAudioAttributes(audioAttributes)
+                .build();
 
-        somVitoria =
-                MediaPlayer.create(this,
-                        R.raw.victory);
-
-        somGameOver =
-                MediaPlayer.create(this,
-                        R.raw.gameover);
+        somClique   = soundPool.load(this, R.raw.click, 1);
+        somMadeira  = soundPool.load(this, R.raw.wood_move, 1);
+        somVitoria  = soundPool.load(this, R.raw.victory, 1);
+        somGameOver = soundPool.load(this, R.raw.gameover, 1);
 
         // ==========================================
         // RECEBE DIFICULDADE
         // ==========================================
 
-        String dificuldade =
-                getIntent().getStringExtra("modo");
+        String dificuldade = getIntent().getStringExtra("modo");
 
-        // Evita crash caso venha nulo
-        if(dificuldade == null){
-
+        if (dificuldade == null) {
             dificuldade = "facil";
         }
 
@@ -213,11 +161,7 @@ public class GameActivity extends AppCompatActivity {
         // ==========================================
 
         btnJogarNovamente.setOnClickListener(v -> {
-
-            // Som clique
-            somClique.start();
-
-            // Reinicia Activity
+            tocarSom(somClique);
             recreate();
         });
 
@@ -226,20 +170,16 @@ public class GameActivity extends AppCompatActivity {
         // ==========================================
 
         btnMenu.setOnClickListener(v -> {
-
-            somClique.start();
-
+            tocarSom(somClique);
             finish();
         });
 
         // ==========================================
-        // BOTÃO GAME OVER
+        // BOTÃO TENTAR NOVAMENTE (GAME OVER)
         // ==========================================
 
         btnTentarNovamente.setOnClickListener(v -> {
-
-            somClique.start();
-
+            tocarSom(somClique);
             recreate();
         });
 
@@ -248,151 +188,106 @@ public class GameActivity extends AppCompatActivity {
         // ==========================================
 
         btnMenuGameOver.setOnClickListener(v -> {
-
-            somClique.start();
-
+            tocarSom(somClique);
             finish();
         });
+
+        // ==========================================
+        // BOTÃO DESISTIR
+        // ==========================================
+
+        btnDesistir.setOnClickListener(v -> {
+            tocarSom(somClique);
+            confirmarDesistencia();
+        });
+    }
+
+    // ==========================================
+    // TOCA SOM
+    // ==========================================
+    // CORREÇÃO: método movido para fora do onCreate (estava declarado dentro dele)
+    private void tocarSom(int som) {
+        soundPool.play(som, 1f, 1f, 1, 0, 1f);
     }
 
     // ==========================================
     // CONFIGURA DIFICULDADE
     // ==========================================
-    private void configurarDificuldade(String modo){
+    private void configurarDificuldade(String modo) {
 
-        // Fácil
-        if(modo.equals("facil")){
-
+        if (modo.equals("facil")) {
             linhas = 3;
-
             colunas = 3;
-
-            tempoPartida = 60;
-        }
-
-        // Médio
-        else if(modo.equals("medio")){
-
-            linhas = 4;
-
-            colunas = 4;
-
             tempoPartida = 90;
-        }
 
-        // Difícil
-        else{
-
-            linhas = 5;
-
-            colunas = 5;
-
+        } else if (modo.equals("medio")) {
+            linhas = 4;
+            colunas = 4;
             tempoPartida = 120;
+
+        } else {
+            linhas = 5;
+            colunas = 5;
+            tempoPartida = 240;
         }
     }
 
     // ==========================================
     // CRIA TABULEIRO
     // ==========================================
-    private void criarTabuleiro(){
+    private void criarTabuleiro() {
 
-        // Define colunas
         gridJogo.setColumnCount(colunas);
-
-        // Limpa grid
         gridJogo.removeAllViews();
-
-        // Limpa lista
         numeros.clear();
 
-        // Total peças
-        int total =
-                linhas * colunas;
+        int total = linhas * colunas;
 
-        // Adiciona números
-        for(int i = 1; i < total; i++){
-
+        for (int i = 1; i < total; i++) {
             numeros.add(i);
         }
 
-        // Espaço vazio
         numeros.add(0);
-
-        // Embaralha
         Collections.shuffle(numeros);
 
         // ==========================================
         // CRIA PEÇAS
         // ==========================================
 
-        for(int i = 0; i < numeros.size(); i++){
+        for (int i = 0; i < numeros.size(); i++) {
 
-            // Número atual
-            int numero =
-                    numeros.get(i);
+            int numero = numeros.get(i);
 
-            // Cria botão
-            Button botao =
-                    new Button(this);
+            Button botao = new Button(this);
 
-            // Tamanho
-            GridLayout.LayoutParams params =
-                    new GridLayout.LayoutParams();
-
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 180;
-
             params.height = 180;
-
-            params.setMargins(
-                    8,
-                    8,
-                    8,
-                    8);
-
+            params.setMargins(8, 8, 8, 8);
             botao.setLayoutParams(params);
 
-            // Fundo madeira
-            botao.setBackgroundResource(
-                    R.drawable.madeira_clara);
-
-            // Cor texto
+            botao.setBackgroundResource(R.drawable.madeira_clara);
             botao.setTextColor(Color.WHITE);
-
-            // Tamanho texto
             botao.setTextSize(24);
 
-            // ==========================================
-            // PEÇA VAZIA
-            // ==========================================
-
-            if(numero == 0){
-
+            if (numero == 0) {
                 botao.setText("");
-
                 botao.setVisibility(Button.INVISIBLE);
-
             } else {
-
-                botao.setText(
-                        String.valueOf(numero));
+                botao.setText(String.valueOf(numero));
             }
 
             // ==========================================
             // EVENTO CLIQUE
+            // CORREÇÃO: listener único, sem aninhamento e sem chamada dupla de moverPeca
             // ==========================================
 
             int finalI = i;
 
             botao.setOnClickListener(v -> {
-
-                // Som madeira
-                somMadeira.start();
-
-                // Move peça
                 moverPeca(finalI);
             });
 
-            // Adiciona no grid
             gridJogo.addView(botao);
         }
     }
@@ -400,57 +295,36 @@ public class GameActivity extends AppCompatActivity {
     // ==========================================
     // MOVE PEÇA
     // ==========================================
-    private void moverPeca(int posicao){
+    private void moverPeca(int posicao) {
 
-        // Procura vazio
-        int vazio =
-                numeros.indexOf(0);
-
-        // ==========================================
-        // VERIFICA MOVIMENTO
-        // ==========================================
+        int vazio = numeros.indexOf(0);
 
         boolean podeMover = false;
 
         // Direita
-        if(posicao == vazio - 1
-                && vazio % colunas != 0){
-
+        if (posicao == vazio - 1 && vazio % colunas != 0) {
             podeMover = true;
         }
 
         // Esquerda
-        if(posicao == vazio + 1
-                && posicao % colunas != 0){
-
+        if (posicao == vazio + 1 && posicao % colunas != 0) {
             podeMover = true;
         }
 
         // Cima
-        if(posicao == vazio - colunas){
-
+        if (posicao == vazio - colunas) {
             podeMover = true;
         }
 
         // Baixo
-        if(posicao == vazio + colunas){
-
+        if (posicao == vazio + colunas) {
             podeMover = true;
         }
 
-        // ==========================================
-        // MOVE
-        // ==========================================
-
-        if(podeMover){
-
-            Collections.swap(
-                    numeros,
-                    posicao,
-                    vazio);
-
+        if (podeMover) {
+            tocarSom(somMadeira);
+            Collections.swap(numeros, posicao, vazio);
             atualizarGrid();
-
             verificarVitoria();
         }
     }
@@ -458,31 +332,19 @@ public class GameActivity extends AppCompatActivity {
     // ==========================================
     // ATUALIZA GRID
     // ==========================================
-    private void atualizarGrid(){
+    private void atualizarGrid() {
 
-        for(int i = 0; i < numeros.size(); i++){
+        for (int i = 0; i < numeros.size(); i++) {
 
-            // Botão
-            Button botao =
-                    (Button) gridJogo.getChildAt(i);
+            Button botao = (Button) gridJogo.getChildAt(i);
+            int numero   = numeros.get(i);
 
-            // Número
-            int numero =
-                    numeros.get(i);
-
-            // Peça vazia
-            if(numero == 0){
-
+            if (numero == 0) {
                 botao.setText("");
-
                 botao.setVisibility(Button.INVISIBLE);
-
             } else {
-
                 botao.setVisibility(Button.VISIBLE);
-
-                botao.setText(
-                        String.valueOf(numero));
+                botao.setText(String.valueOf(numero));
             }
         }
     }
@@ -490,86 +352,159 @@ public class GameActivity extends AppCompatActivity {
     // ==========================================
     // VERIFICA VITÓRIA
     // ==========================================
-    private void verificarVitoria(){
+    private void verificarVitoria() {
 
-        for(int i = 0; i < numeros.size() - 1; i++){
-
-            if(numeros.get(i) != i + 1){
-
+        for (int i = 0; i < numeros.size() - 1; i++) {
+            if (numeros.get(i) != i + 1) {
                 return;
             }
         }
 
-        // ==========================================
-        // VENCEU
-        // ==========================================
-
         timer.cancel();
-
-        somVitoria.start();
-
-        layoutVitoria.setVisibility(
-                LinearLayout.VISIBLE);
-
+        tocarSom(somVitoria);
+        layoutVitoria.setVisibility(LinearLayout.VISIBLE);
         salvarRecorde();
     }
 
     // ==========================================
     // TIMER
     // ==========================================
-    private void iniciarTempo(){
+    private void iniciarTempo() {
 
-        timer =
-                new CountDownTimer(
-                        tempoPartida * 1000L,
-                        1000) {
+        timer = new CountDownTimer(tempoPartida * 1000L, 1000) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                txtTempo.setText(String.valueOf(millisUntilFinished / 1000));
+            }
 
-                        // Atualiza texto
-                        txtTempo.setText(
-                                String.valueOf(
-                                        millisUntilFinished / 1000));
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                        // Game over
-                        somGameOver.start();
-
-                        layoutGameOver.setVisibility(
-                                LinearLayout.VISIBLE);
-                    }
-                };
+            @Override
+            public void onFinish() {
+                tocarSom(somGameOver);
+                layoutGameOver.setVisibility(LinearLayout.VISIBLE);
+            }
+        };
 
         timer.start();
     }
 
     // ==========================================
     // SALVA RECORDE
+    // CORREÇÃO: agora verifica se o novo tempo é melhor antes de salvar
     // ==========================================
-    private void salvarRecorde(){
+    private void salvarRecorde() {
 
-        // UID usuário
-        String uid =
-                auth.getCurrentUser().getUid();
+        if (auth.getCurrentUser() == null) {
+            return;
+        }
 
-        // Tempo restante
-        int tempoRestante =
-                Integer.parseInt(
-                        txtTempo.getText().toString());
+        String uid = auth.getCurrentUser().getUid();
 
-        // Salva Firebase
-        databaseReference
-                .child(uid)
-                .child("melhorTempo")
-                .setValue(tempoRestante);
+        int tempoRestante = Integer.parseInt(txtTempo.getText().toString());
 
-        Toast.makeText(
-                this,
-                "Novo recorde salvo!",
-                Toast.LENGTH_SHORT).show();
+        // Lê o recorde atual antes de sobrescrever
+        databaseReference.child(uid).child("melhorTempo")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        // Se não existe recorde anterior, salva direto
+                        if (!snapshot.exists()) {
+                            gravarTempo(uid, tempoRestante);
+                            return;
+                        }
+
+                        int melhorAnterior = snapshot.getValue(Integer.class);
+
+                        // Tempo maior = restou mais tempo = melhor desempenho
+                        if (tempoRestante > melhorAnterior) {
+                            gravarTempo(uid, tempoRestante);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Falha silenciosa; pode-se exibir um Toast se necessário
+                    }
+                });
+    }
+
+    // ==========================================
+    // GRAVA TEMPO NO FIREBASE
+    // ==========================================
+    private void gravarTempo(String uid, int tempo) {
+
+        databaseReference.child(uid).child("melhorTempo").setValue(tempo);
+
+        Toast.makeText(this, "Novo recorde salvo!", Toast.LENGTH_SHORT).show();
+    }
+
+    // ==========================================
+    // CONFIRMA DESISTÊNCIA
+    // ==========================================
+    private void confirmarDesistencia() {
+
+        // Pausa o timer enquanto o diálogo está aberto
+        timer.cancel();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Desistir?")
+                .setMessage("Tem certeza que quer abandonar a partida?")
+
+                // Confirma: vai pro menu
+                .setPositiveButton("Desistir", (dialog, which) -> {
+                    tocarSom(somGameOver);
+                    finish();
+                })
+
+                // Cancela: retoma o timer do tempo restante
+                .setNegativeButton("Continuar", (dialog, which) -> {
+
+                    int tempoRestante =
+                            Integer.parseInt(txtTempo.getText().toString());
+
+                    timer = new CountDownTimer(tempoRestante * 1000L, 1000) {
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            txtTempo.setText(
+                                    String.valueOf(millisUntilFinished / 1000));
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            tocarSom(somGameOver);
+                            layoutGameOver.setVisibility(LinearLayout.VISIBLE);
+                        }
+                    };
+
+                    timer.start();
+                })
+
+                // Toca clique e retoma se fechar sem escolher
+                .setOnCancelListener(dialog -> {
+
+                    int tempoRestante =
+                            Integer.parseInt(txtTempo.getText().toString());
+
+                    timer = new CountDownTimer(tempoRestante * 1000L, 1000) {
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            txtTempo.setText(
+                                    String.valueOf(millisUntilFinished / 1000));
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            tocarSom(somGameOver);
+                            layoutGameOver.setVisibility(LinearLayout.VISIBLE);
+                        }
+                    };
+
+                    timer.start();
+                })
+                .show();
     }
 }

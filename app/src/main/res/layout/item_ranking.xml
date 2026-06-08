@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+
+    android:padding="12dp"
+
+    android:gravity="center_vertical"
+
+    android:layout_marginBottom="8dp"
+
+    android:background="#2A2A2A">
+
+    <!-- POSIÇÃO -->
+    <TextView
+        android:id="@+id/txtPosicao"
+
+        android:layout_width="40dp"
+
+        android:layout_height="wrap_content"
+
+        android:text="1"
+
+        android:textSize="20sp"
+
+        android:textStyle="bold"
+
+        android:textColor="#FFFFFF"/>
+
+    <!-- AVATAR -->
+    <ImageView
+        android:id="@+id/imgAvatar"
+
+        android:layout_width="55dp"
+
+        android:layout_height="55dp"
+
+        android:scaleType="centerCrop"/>
+
+    <!-- INFO -->
+    <LinearLayout
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+
+        android:orientation="vertical"
+
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/txtNome"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Jogador"
+
+            android:textColor="#FFFFFF"
+
+            android:textStyle="bold"
+
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txtTempo"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="35s"
+
+            android:textColor="#00E5FF"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,6 +31,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DatabaseError;
 
+
+import com.example.shufflegame.models.UserModel;
+
+// Para as Arrays
+import java.util.ArrayList;
+import java.util.Collections;
+
 // ==========================================
 // CLASSE MAIN ACTIVITY
 // ==========================================
@@ -285,6 +292,142 @@ public class MainActivity extends AppCompatActivity {
     // ==========================================
     private void carregarRanking(){
 
-        // Depois vamos implementar
+        databaseReference
+
+                .orderByChild("melhorTempo")
+
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+
+                                // Limpa ranking atual
+                                layoutRanking.removeAllViews();
+
+                                // Lista temporária
+                                ArrayList<UserModel> listaUsuarios =
+                                        new ArrayList<>();
+
+                                // Adiciona todos usuários na lista
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+
+                                    UserModel usuario =
+                                            ds.getValue(UserModel.class);
+
+                                    if (usuario != null) {
+
+                                        listaUsuarios.add(usuario);
+                                    }
+                                }
+
+                                // =====================================
+                                // ORDENA DO MAIOR PARA O MENOR
+                                // =====================================
+
+                                Collections.sort(
+                                        listaUsuarios,
+                                        (u1, u2) -> Long.compare(
+                                                u2.getMelhorTempo(),
+                                                u1.getMelhorTempo()
+                                        )
+                                );
+
+                                // =====================================
+                                // EXIBE RANKING
+                                // =====================================
+
+                                int posicao = 1;
+
+                                for (UserModel usuario : listaUsuarios) {
+
+                                    View item =
+                                            getLayoutInflater()
+                                                    .inflate(
+                                                            R.layout.item_ranking,
+                                                            layoutRanking,
+                                                            false
+                                                    );
+
+                                    TextView txtPosicao =
+                                            item.findViewById(R.id.txtPosicao);
+
+                                    ImageView imgAvatar =
+                                            item.findViewById(R.id.imgAvatar);
+
+                                    TextView txtNome =
+                                            item.findViewById(R.id.txtNome);
+
+                                    TextView txtTempo =
+                                            item.findViewById(R.id.txtTempo);
+
+                                    txtPosicao.setText(
+                                            String.valueOf(posicao));
+
+                                    txtNome.setText(
+                                            usuario.getNome());
+
+                                    txtTempo.setText(
+                                            usuario.getMelhorTempo()
+                                                    + " segundos sobrando");
+
+                                    switch (usuario.getAvatar()) {
+
+                                        case "avatar1":
+                                            imgAvatar.setImageResource(
+                                                    R.drawable.avatar1);
+                                            break;
+
+                                        case "avatar2":
+                                            imgAvatar.setImageResource(
+                                                    R.drawable.avatar2);
+                                            break;
+
+                                        case "avatar3":
+                                            imgAvatar.setImageResource(
+                                                    R.drawable.avatar3);
+                                            break;
+
+                                        default:
+                                            imgAvatar.setImageResource(
+                                                    R.drawable.avatar4);
+                                            break;
+                                    }
+
+                                    // Ouro
+                                    if (posicao == 1) {
+
+                                        item.setBackgroundColor(
+                                                0xFFFFD700);
+
+                                    }
+
+                                    // Prata
+                                    else if (posicao == 2) {
+
+                                        item.setBackgroundColor(
+                                                0xFFC0C0C0);
+
+                                    }
+
+                                    // Bronze
+                                    else if (posicao == 3) {
+
+                                        item.setBackgroundColor(
+                                                0xFFCD7F32);
+                                    }
+
+                                    layoutRanking.addView(item);
+
+                                    posicao++;
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(
+                                    DatabaseError error) {
+
+                            }
+                        });
     }
 }
