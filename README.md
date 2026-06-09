@@ -1,4 +1,8 @@
+[JAVA_BADGE]:https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
+
 # 🎮 Shuffle Game
+![java][JAVA_BADGE]
+[![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=flat&logo=android-studio&logoColor=white)](https://developer.android.com/studio)   
 
 Um jogo de puzzle numérico para Android com autenticação, múltiplos níveis de dificuldade e ranking global — desenvolvido com Java e Firebase.
 
@@ -107,10 +111,3 @@ O ranking exibe todos os jogadores ordenados pelo maior tempo restante ao vencer
 
 - Android 7.0 (API 24) ou superior
 - Conexão com a internet (necessária para login e ranking)
-
----
-
-## 👤 Autor
-
-**Welson Paiva**
-- GitHub: [@Welson-Paiva](https://github.com/Welson-Paiva)
